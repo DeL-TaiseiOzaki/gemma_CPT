@@ -1,0 +1,37 @@
+model:
+  model: google/gemma-2b-9b-it
+  tokenizer: google/gemma-2b-9b-it
+  use_cache: False
+  max_length: 2048
+
+train:
+  output_dir: ./outputs
+  evaluation_strategy: steps
+  logging_strategy: steps
+  save_strategy: steps
+  learning_rate: 2e-5
+  num_train_epochs: 3
+  per_device_train_batch_size: 16
+  per_device_eval_batch_size: 16
+  gradient_accumulation_steps: 1
+  gradient_checkpointing: True
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  optim: adamw_torch
+  fp16: True
+  bf16: False
+  dataloader_num_workers: 8
+  eval_steps: 100
+  save_steps: 100
+  logging_steps: 10
+  run_name: gemma-continued-pretraining
+  save_total_limit: 2
+  neftune_noise_alpha: 5
+  deepspeed: ./configs/deepspeed/ds_config_zero2.json
+  report_to: wandb
+
+dataset:
+  path: weblab-GENIAC/team_ozaki_submit4
+  split: train
+
+seed: 42
